@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="exp4server" default="compile" basedir=".">
+  <!-- env variables -->
+  <property environment="env" />
+  <property name="java.home" value="/Library/Java/JavaVirtualMachines/1.7.0_40.jdk/Contents/Home" />
+
+  <property name="app.dir" value="." />
+  <property name="src.dir" value="${app.dir}/src" />
+  <property name="bin.dir" value="${app.dir}/bin" />
+  <property name="zip.file" value="${env.USER}.zip" />
+
+  <!-- compilation -->
+  <target name="compile">
+    <mkdir dir="${bin.dir}" />
+    <javac srcdir="${src.dir}" destdir="${bin.dir}" debug="true" encoding="UTF-8" includeantruntime="false">
+      <classpath>
+        <pathelement location="${bin.dir}" />
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- cleanup -->
+  <target name="clean">
+    <delete dir="${bin.dir}" />
+  </target>
+  <target name="dotclean">
+    <delete>
+      <fileset dir="." includes="**/._*" defaultexcludes="no" />
+    </delete>
+  </target>
+
+  <!-- packing -->
+  <target name="pack" depends="clean,dotclean">
+    <zip destfile="${zip.file}" basedir="${app.dir}" update="true">
+      <exclude name="${zip.file}" />
+    </zip>
+  </target>
+
+  <!-- execution -->
+  <target name="exec" depends="compile">
+    <java classname="exp4server.frozen.Main" classpath="${bin.dir}" />
+  </target>
+  <target name="exec-c" depends="compile">
+    <java classname="exp4server.frozen.Main" classpath="${bin.dir}">
+      <arg value="-c" />
+    </java>
+  </target>
+  <target name="exec-s" depends="compile">
+    <java classname="exp4server.frozen.Main" classpath="${bin.dir}">
+      <arg value="-s" />
+    </java>
+  </target>
+  <target name="exec-i" depends="compile">
+      <java classname="exp4server.frozen.Main" classpath="${bin.dir}">
+          <arg value="-i" />
+      </java>
+  </target>
+  <target name="exec-n" depends="compile">
+      <java classname="exp4server.frozen.Main" classpath="${bin.dir}">
+          <arg value="-n" />
+      </java>
+  </target>
+
+</project>
